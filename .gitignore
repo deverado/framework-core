@@ -1,2 +1,15 @@
+.DS_Store
 /build
+/target
+/bin
+/.gradle
 
+#eclipse
+/.classpath
+/.project
+/.settings
+
+#idea
+/*.iml
+/*.ipr
+/*.iws
