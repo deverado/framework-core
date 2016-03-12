@@ -43,6 +43,41 @@ public class ParsingUtil {
         return retval;
     }
 
+    public static Long parseAsLong(@Nullable String s, @Nullable Long defaultVal) {
+        try {
+            return Long.parseLong(s.trim());
+        } catch (RuntimeException nfe) {
+            if (defaultVal == null) {
+                throw nfe;
+            }
+            return defaultVal;
+        }
+    }
+
+    public static Long parseAsEnglishLong(@Nullable String s, @Nullable Long defaultVal) {
+        try {
+            return parseAsEnglishLong(s);
+        } catch (NumberFormatException nfe) {
+            if (defaultVal == null) {
+                throw nfe;
+            }
+            return defaultVal;
+        }
+    }
+
+    public static long parseAsEnglishLong(String s) {
+
+        s = makeEnglishLongOrIntParseable(s);
+        if (StringUtils.isBlank(s)) {
+            throw new NumberFormatException("null");
+        }
+        return Long.parseLong(s);
+    }
+
+    private static String makeEnglishLongOrIntParseable(String s) {
+        return Strings.nullToEmpty(s).replace(",", "").trim();
+    }
+
     public static int parseAsInt(@Nullable String s, @Nullable Integer defaultVal) {
         try {
             return Integer.parseInt(s.trim());
@@ -67,7 +102,7 @@ public class ParsingUtil {
 
     public static int parseAsEnglishInt(String s) {
 
-        s = Strings.nullToEmpty(s).replace(",", "").trim();
+        s = makeEnglishLongOrIntParseable(s);
         if (StringUtils.isBlank(s)) {
             throw new NumberFormatException("null");
         }
